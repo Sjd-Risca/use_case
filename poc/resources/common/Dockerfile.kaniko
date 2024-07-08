@@ -1,0 +1,6 @@
+FROM bitnami/python:3.11
+ARG TARGET
+RUN bash /workspace/common/kanikobuild.sh
+
+ENTRYPOINT uvicorn
+CMD ["app.main:app"]

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgresql-config
+  namespace: poc
+  labels:
+    app: postgres
+    app.kubernetes.io/name: postgresql
+    app.kubernetes.io/component: database
+data:
+  POSTGRES_DB: postgresdb
+  POSTGRES_USER: admin
