@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kanikofrontend
+spec:
+  containers:
+    - name: kaniko
+      image: gcr.io/kaniko-project/executor:latest
+      args:
+        - "--dockerfile=common/Dockerfile.kaniko"
+        - "--context=git://github.com/Sjd-Risca/use_case.git#master"
+        - "--context-sub-path=poc/resources"
+        - "--build-arg=TARGET=frontend"
+        - "--reproducible"
+        - "--insecure"
+        - "--skip-tls-verify"
+        - "--destination=repository.localhost/app-frontend:latest"
+        - "--registry-map=repository.localhost=10.42.0.10:80"
+        - "--skip-push-permission-check"
+        - "--single-snapshot"
+        - "--snapshot-mode=time"
+        - "--use-new-run"
+      volumeMounts:
+        - name: kaniko-secret
+          mountPath: /kaniko/.docker
+          #env:
+          #  - name: GOOGLE_APPLICATION_CREDENTIALS
+          #    value: /secret/kaniko-secret.json
+  restartPolicy: Never
+  volumes:
+    - name: kaniko-secret
+      secret:
+        secretName: kaniko-secret
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: kaniko-secret
+data:
+  config.json: ewogICAgImluc2VjdXJlLXJlZ2lzdHJpZXMiIDogWyAicmVwb3NpdG9yeS5sb2NhbGhvc3Q6ODAiIF0KfQo=
+

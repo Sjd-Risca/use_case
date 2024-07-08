@@ -66,23 +66,25 @@ help:  ## Print current help documentation
 	    printf "%s\n", var[1]}' | while read var; do if [ -x $${!var+x} ]; then : ; else printf '"%s" => "%s"\n' "$${var}" "$${!var}"; fi; done
 
 
-.PHONY: build
-build:  ## Build qcow2 image
-	cd iso_build
-
-	nix-build '<nixpkgs/nixos>' -A vm -I nixos-config=./installation/machine-config.nix -I nixpkgs=channel:nixos-24.05 installation
-
 NIX := nix --extra-experimental-features nix-command --extra-experimental-features
+BUILD_PATH := iso_build
+DISK := root.qcow2
+DISK_PATH := $(BUILD_PATH)/$(DISK)
 
-iso_build/root.qcow2:
-	pushd "$$(basename $@)"
+$(DISK_PATH): $(wildcard $(BUILD_PATH)/*)
+	pushd "$$(dirname $@)"
 	$(NIX) flakes build .#nixosConfigurations.build-qcow2.config.system.build.qcow2
-	cp result/nixos.qcow2 root.qcow2
+	cp result/nixos.qcow2 $(DISK)
 	popd
 	chmod 644 $@
 
+.PHONY: build
+build:  $(DISK_PATH) ## Build qcow2 image
+
 .PHONY: run
-run: iso_build/root.qcow2  ## Run virtual machine
+run: $(DISK_PATH)  ## Run virtual machine locally on KVM
+	echo "Local FS available at:"
+	echo "mount -t 9p poc /poc"
 	kvm -name nixos -m 6G -smp 2 \
 	    -drive cache=writeback,file=$<,id=drive1,if=none,index=1,werror=report \
 	    -device virtio-blk-pci,bootindex=1,drive=drive1 \

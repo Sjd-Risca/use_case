@@ -1,2 +1,4 @@
 *.pyc
 __pycache__
+**/iso_build/result
+**/iso_build/root.qcow2

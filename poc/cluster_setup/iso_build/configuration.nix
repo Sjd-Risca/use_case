@@ -22,6 +22,7 @@
   services.k3s.extraFlags = toString [
     # "--kubelet-arg=v=4" # Optionally add additional args to k3s
   ];
+  services.openssh.enable = true;
   virtualisation.podman.enable = true;
   programs.tmux.enable = true;
 
@@ -33,6 +34,7 @@
     k9s
     stern
     tanka
+    fzf
   ];
 
   system.stateVersion = "24.05";
