@@ -1,7 +1,9 @@
 FROM bitnami/python:3.11
 ARG TARGET
-RUN ls -l /
-RUN bash /common/kanikobuild.sh
+
+COPY ${TARGET}/* .
+COPY common/libs/* .
+RUN pip install -r requirements.txt
 
 ENTRYPOINT uvicorn
 CMD ["app.main:app"]

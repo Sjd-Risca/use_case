@@ -89,8 +89,8 @@ $(VENV)/touchfile: requirements.txt
 run: $(VENV)  ## Run backend
 	$(Q)$(PYENV) $(PYTHONPATH) uvicorn app.main:app --reload --port $(PORT)
 
-.PHONY: build
-build:  ## Build container
+.PHONY: build.kaniko
+build.kaniko:  ## Build container
 	$(MAKE) clean
 	cd $(DIR_RESOURCE)
 	[ -d tmp ] || mkdir tmp
@@ -106,7 +106,17 @@ build:  ## Build container
 	else
 	    $(OCI_CMD) load --input tmp/image.tar.gz
 	fi
-	#rm tmp/image.tar.gz
+	rm tmp/image.tar.gz
+
+.PHONY: build
+build:  ## Build container
+	$(MAKE) clean
+	cd $(DIR_RESOURCE)
+	$(OCI_CMD) build --build-arg=TARGET=$(APP_NAME) -f common/Dockerfile -t localhost/poc-$(APP_NAME) .
+
+.PHONY: push
+push:  ## Build container
+	$(OCI_CMD) push --tls-verify=false localhost/poc-$(APP_NAME):latest registry.localhost:60080/poc-$(APP_NAME):latest
 
 
 clean:  ## Clean temporary files

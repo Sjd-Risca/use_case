@@ -15,7 +15,7 @@ spec:
         - "--insecure"
         - "--skip-tls-verify"
         - "--destination=repository.localhost/app-frontend:latest"
-        - "--registry-map=repository.localhost=10.42.0.10:80"
+        - "--registry-map=repository.localhost=10.42.0.6:5000"
         - "--skip-push-permission-check"
         - "--single-snapshot"
         - "--snapshot-mode=time"

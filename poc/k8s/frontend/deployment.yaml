@@ -16,6 +16,12 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: localhost/poc-frontend:latest
+          image: registry.localhost/poc-frontend:latest
+          env:
+          - name: BACKEND
+            valueFrom:
+              configMapKeyRef:
+                name: frontend
+                key: BACKEND
           ports:
           - containerPort: 8000

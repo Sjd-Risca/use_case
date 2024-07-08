@@ -7,3 +7,8 @@ mirrors:
   registry.localhost:
     endpoint:
       - "http://registry.localhost:80"
+configs:
+  "docker.io":
+  "*":
+    tls:
+      insecure_skip_verify: true

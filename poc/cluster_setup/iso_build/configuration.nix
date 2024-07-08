@@ -29,6 +29,7 @@
   environment.systemPackages = with pkgs; [
     python311
     tanka
+    buildah
     vim
     kubie
     k9s

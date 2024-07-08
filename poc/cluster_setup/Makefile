@@ -92,3 +92,7 @@ run: $(DISK_PATH)  ## Run virtual machine locally on KVM
 	    -virtfs local,path=$(ROOT),mount_tag=poc,security_model=mapped-xattr \
 	    -nographic
 
+.PHONY: ssh
+ssh:
+	ssh -o "GlobalKnownHostsFile /dev/null" -o "UserKnownHostsFile /dev/null" demo@127.0.0.1 -p 60022
+

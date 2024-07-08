@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: postgres
+  name: backend
   namespace: poc
 spec:
   selector:
-    app: postgres
+    app: backend
   ports:
     - protocol: TCP
-      port: 5432
-      targetPort: 5432
+      port: 8000
+      targetPort: 8000

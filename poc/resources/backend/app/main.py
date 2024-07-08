@@ -54,7 +54,7 @@ def read_items(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return items
 
 
-@app.post("/flights/", response_model=schemas.User)
+@app.post("/flights/", response_model=poc.schemas.Flight)
 def create_flight(flight: schemas.FlightCreate, db: Session = Depends(get_db)):
     return crud.create_flight(db=db, flight=flight)
 

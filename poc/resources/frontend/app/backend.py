@@ -1,6 +1,7 @@
+import os
 import requests
 
-URL='http://127.0.0.1:8000'
+URL = os.environ.get('BACKEND', 'http://127.0.0.1:8000')
 
 
 def api_get(path):
