@@ -51,6 +51,8 @@ For more details: see [github](https://github.com/Sjd-Risca/use_case)
    kubectl get all -n poc
 ```
 
+As defined by [github/poc/k8s](https://github.com/Sjd-Risca/use_case/tree/master/poc/k8s).
+
 
 ----
 
